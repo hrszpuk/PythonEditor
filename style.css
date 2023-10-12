@@ -64,7 +64,16 @@ body {
     position: absolute;
     margin: 8px;
     background-color: #272822;
+    border: none;
     color: #F8F8F2;
+    resize: none;
+    width: 96%;
+    outline: none;
+    height: 93%;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .slider {
