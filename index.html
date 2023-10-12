@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Editor | hrszpuk.com</title>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.29.0/src-min-noconflict/ace.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+    <script src="js/skulpt/skulpt.min.js" type="text/javascript"></script>
+    <script src="js/skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<ul id="editor-buttons">
+    <li><a onclick=run()>Run</a></li>
+    <li><a onclick=displayClear()>Clear</a></li>
+</ul>
+<div class="content">
+    <div id="editor">print("Hello World")</div>
+    <div class="slider"></div>
+    <div id="container">
+        <p id="container-title"># Program output</p>
+        <p id="output"></p>
+    </div>
+</div>
+<script>
+    // Setting up Ace Editor
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/python");
+
+    // Making a "run" shortcut
+    editor.commands.addCommand({
+        name: 'Run code',
+        bindKey: {win: 'Ctrl-Enter',  mac: 'Command-Enter', linux: 'Ctrl-Enter'},
+        exec: run,
+        readOnly: true, // false if this command should not apply in readOnly mode
+        // multiSelectAction: "forEach", optional way to control behavior with multiple cursors
+        // scrollIntoView: "cursor", control how cursor is scolled into view after the command
+    });
+
+
+    // Setting up Skulpt runtime
+    function displayResult(text) {
+        var outputContainer = document.getElementById("output");
+        outputContainer.innerHTML = outputContainer.innerHTML + text;
+    }
+
+    function displayClear() {
+        document.getElementById("output").innerHTML = "";
+    }
+
+    function builtinRead(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+            throw "File not found: '" + x + "'";
+        return Sk.builtinFiles["files"][x];
+    }
+
+    function run() {
+        var program = editor.getValue();
+        var mypre = document.getElementById("output");
+        mypre.innerHTML = '';
+        Sk.pre = "output";
+        Sk.configure({output:displayResult, read:builtinRead});
+        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+        var myPromise = Sk.misceval.asyncToPromise(function() {
+            return Sk.importMainWithBody("<stdin>", false, program, true);
+        });
+        myPromise.then(function(mod) {
+                console.log('success');
+            },
+            function(err) {
+                console.log(err.toString());
+            });
+    }
+</script>
+</body>
+</html>
