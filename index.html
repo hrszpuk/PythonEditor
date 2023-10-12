@@ -19,7 +19,7 @@
     <div class="slider"></div>
     <div id="container">
         <p id="container-title"># Program output</p>
-        <p id="output"></p>
+        <textarea id="output"></textarea>
     </div>
 </div>
 <script>
@@ -71,6 +71,7 @@
             function(err) {
                 console.log(err.toString());
             });
+        editor.resize()
     }
 </script>
 </body>
