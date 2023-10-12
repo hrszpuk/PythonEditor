@@ -1,4 +1,5 @@
 body {
+    font-size: 24px;
     margin: 0;
 }
 
@@ -20,6 +21,7 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    align-content: center;
     background-color: #1d1e19;
     color: #F8F8F2;
     list-style: none;
@@ -29,9 +31,10 @@ body {
 
 #editor-buttons li a {
     padding: 8px;
-    font-size: 12px;
+    font-size: 18px;
     font-family: "Open Sans", monospace;
     border-right: #272822 1px solid;
+    flex: inherit;
 }
 
 #editor-buttons li a:hover {
@@ -70,6 +73,7 @@ body {
     width: 96%;
     outline: none;
     height: 93%;
+    font-size: 16px;
 
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
